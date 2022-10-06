@@ -16,7 +16,7 @@ public class ToNextScene : MonoBehaviour
         if (sceneChanged) return;//sceneChangedがtrueなら　というif文　　trueならreturn(何もせず値を返す)という指示文
 
         sceneChanged = true;
-        TinyAudio.PlaySE(TinyAudio.SE.Start);
+        
         SceneManager.LoadScene(nextScene);
     }
 
