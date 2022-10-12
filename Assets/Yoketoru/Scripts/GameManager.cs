@@ -17,19 +17,29 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //#if …のやつ、buildしたら作動しないだか何だか。跡形もなくなる。プリプロセッサプログラム？の真骨頂？らしい
-#if DEBUG_KEY
+         /* #if DEBUG_KEY
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SceneManager.LoadScene("Gameover");
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    SceneManager.LoadScene("Gameover");
+                }
+
+                else if (Input.GetKeyDown(KeyCode.C))
+                {
+                    SceneManager.LoadScene("Clear");
+                }
+
+        #endif*/
+     
+        #if DEBUG_KEY
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                SceneManager.LoadScene("Gameover", LoadSceneMode.Additive);//Additive＝追加
         }
-
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            SceneManager.LoadScene("Clear");
-        }
-
-#endif
-
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                SceneManager.LoadScene("Clear", LoadSceneMode.Additive);
+            }
+        #endif
     }
 }
