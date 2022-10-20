@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      cameraDistance = Vector3.Distance(transform.position/*自分*/,Camera.main.transform.position/*カメラ*/);
+       
+        cameraDistance = Vector3.Distance(transform.position/*自分*/,Camera.main.transform.position/*カメラ*/);
      // Vector3.Distance(一つ目の座標,二つ目の座標);距離を求める
 
 
@@ -50,7 +52,6 @@ public class Player : MonoBehaviour
         }
         else 
         {
-
             float step = speed * Time.deltaTime;
             float dist = Mathf.Min(to.magnitude, step);
             float v = dist / Time.deltaTime;
@@ -63,4 +64,17 @@ public class Player : MonoBehaviour
 
 
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.collider.tag);
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene("Gameover",LoadSceneMode.Additive);
+            //大文字のものは変数を保持するらしい。
+            Time.timeScale = 0;
+        }
+    }
+
+
 }
