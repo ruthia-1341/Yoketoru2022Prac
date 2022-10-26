@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     static int score;
     static float time;
     static float StartTime => 10;
+    static bool clear;
+    static bool gameover;
 
 
 
@@ -29,13 +31,17 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         ClesrScore();
+        Item.ClearCount();
         time = StartTime;
+        clear = false;
+        gameover = false;
 /*
         clear = false;
         gameover = false;
         Item.ClearCount();*/
 
     }
+
 
     // Start is called before the first frame update
     void Start()
@@ -64,15 +70,17 @@ public class GameManager : MonoBehaviour
         #if DEBUG_KEY
             if (Input.GetKeyDown(KeyCode.O))
             {
-                SceneManager.LoadScene("Gameover", LoadSceneMode.Additive);//AdditiveÅÅí«â¡
+            GameManager.ToGameover();
+        
+        
         }
             else if (Input.GetKeyDown(KeyCode.C))
             {
-                SceneManager.LoadScene("Clear", LoadSceneMode.Additive);
+            GameManager.ToClear();
             }
-        else if (Input.GetKey(KeyCode.P))
+        else if (Input.GetKeyDown(KeyCode.P))
         {
-            AddPoint(12345);
+            AddPoint(2000);
         }
 #endif
     }
@@ -121,6 +129,26 @@ public class GameManager : MonoBehaviour
         {
             Instance.UpdateScoreText();
         }
+    }
+
+    public static void ToClear()
+    {
+        if (clear || gameover) return;//î‘êl
+
+        clear = true;
+        // TODO CheckHighScore();
+        SceneManager.LoadScene("Clear", LoadSceneMode.Additive);
+        Time.timeScale = 0;
+    }
+
+    public static void ToGameover()
+    {
+        if (clear || gameover) return;
+
+        gameover = true;
+        // TODO CheckHighScore();
+        SceneManager.LoadScene("Gameover", LoadSceneMode.Additive);
+        Time.timeScale = 0;
     }
 
 }

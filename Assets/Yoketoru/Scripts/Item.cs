@@ -1,26 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    int point = 100;
 
-    // Update is called once per frame
-    void Update()
+    static int count;
+
+    public Item() : base()
     {
-        
+        count++;
     }
-    
+    /*
+    private void Start()
+    {
+        count++;
+        //Debug.Log(count);
+    }
+    */
+
+
     private void OnCollisionEnter(Collision collision)
     {
+
         if (collision.collider.CompareTag("Player"))
         {
+            TinyAudio.PlaySE(TinyAudio.SE.Item);
+            GameManager.AddPoint(point);
             Destroy(gameObject);
+            count--;
+        
+            if (count <= 0)
+        
+            {
+                GameManager.ToClear();
+
+        
+            }
         }
+    }
+
+    public static void ClearCount()
+    {
+        count = 0;
     }
 }

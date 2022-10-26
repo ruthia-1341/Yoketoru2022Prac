@@ -69,10 +69,11 @@ public class Player : MonoBehaviour
     {
         Debug.Log(collision.collider.tag);
         if (collision.collider.CompareTag("Enemy"))
-        {
+        {/*
             SceneManager.LoadScene("Gameover",LoadSceneMode.Additive);
             //‘å•¶š‚Ì‚à‚Ì‚Í•Ï”‚ğ•Û‚·‚é‚ç‚µ‚¢B
-            Time.timeScale = 0;
+            Time.timeScale = 0;*/
+            GameManager.ToGameover();
         }
     }
 
