@@ -8,21 +8,27 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    static int score;
-    static float time;
-    static float StartTime => 10f;
+    public static GameManager Instance { get; private set; }
 
 
     [SerializeField]
     TextMeshProUGUI scoreText = default;
-    [SerializeField]
-    TextMeshProUGUI timeText = default;
+    /*[SerializeField]
+    TextMeshProUGUI timeText = default;*/
+
+    static int ScoreMax => 99999;//定数
+
+    static int score;
+    static float time;
+    static float StartTime => 10;
+
 
 
 
     private void Awake()
     {
-        score = 0;
+        Instance = this;
+        ClesrScore();
         time = StartTime;
 /*
         clear = false;
@@ -66,8 +72,7 @@ public class GameManager : MonoBehaviour
             }
         else if (Input.GetKey(KeyCode.P))
         {
-            score += 1;
-            UpdateScoreText();
+            AddPoint(12345);
         }
 #endif
     }
@@ -77,6 +82,44 @@ public class GameManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = $"{score:00000}";
+        }
+    }
+    public static void AddPoint(int add)
+    {
+        score += add;
+        /*上限チェックその１　　手続き型の典型　分かりやすい
+        
+        if (score > ScoreMax)
+        {
+            score = ScoreMax;
+        }
+        */
+
+        /*上限チェックその２　　手続き型の省略形　コンパクトに書ける
+        //変数 = 条件式 ? 左の条件が成立していたら返してほしい値 : 不成立だったら返してほしい値 ;
+        score = score > ScoreMax ? ScoreMax : score;
+        */
+
+        //上限チェックその３　　関数型で近代的
+        //Min (最小値) Max(最大値)
+        score = Mathf.Min(score + add,ScoreMax);
+
+
+
+
+        if (Instance!=null)
+        {
+            Instance.UpdateScoreText();
+
+        }
+    }
+
+    public static void ClesrScore()
+    {
+        score = 0;
+        if (Instance!=null)
+        {
+            Instance.UpdateScoreText();
         }
     }
 
